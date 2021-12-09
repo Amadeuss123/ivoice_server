@@ -82,7 +82,7 @@ async function makeApp(config, models) {
       extended: true,
     })
   );
-  app.use(expressFormidable());
+  // app.use(expressFormidable());
 
   // 设置session
   const cookieMaxAge = parseInt(config.get('sessionMinutes'), 10) * 60 * 1000;

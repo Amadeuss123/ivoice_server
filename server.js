@@ -43,8 +43,6 @@ const port = config.get('port');
 const certPassphrase = config.get('certPassphrase');
 const keyPath = config.get('keyPath');
 const certPath = config.get('certPath');
-const timeoutSeconds = config.get('timeoutSeconds');
-const salt = config.get('salt');
 
 const { sequelizeDb, models } = initDatabase(config);
 
