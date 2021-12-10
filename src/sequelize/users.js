@@ -19,7 +19,10 @@ module.exports = function (sequelize) {
       },
       passhash: {
         type: DataTypes.STRING,
-      }
+      },
+      signinAt: {
+        type: DataTypes.DATE,
+      },
     },
     {
       tableName: 'users',
@@ -27,4 +30,4 @@ module.exports = function (sequelize) {
     }
   );
   return Users;
-}
+};

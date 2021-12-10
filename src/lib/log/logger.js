@@ -1,18 +1,10 @@
 const pino = require('pino');
 
-const levels = [
-  'fatal',
-  'error',
-  'warn',
-  'info',
-  'debug',
-  'trace',
-  'silent',
-];
+const levels = ['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent'];
 const pinoDefaultConfig = {
   name: 'ivoice',
   timestamp: pino.stdTimeFunctions.isoTime,
-}
+};
 
 class Logger {
   constructor(logLevel = 'warn') {
@@ -40,7 +32,7 @@ class Logger {
     this.logger.fatal(...args);
   }
 
-  error(...args) {  
+  error(...args) {
     this.logger.error(...args);
   }
 

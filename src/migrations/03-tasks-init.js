@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 
-async function up(queryInterface, config, appLog) {
+async function up(queryInterface) {
   await queryInterface.createTable('tasks', {
     id: {
       type: DataTypes.STRING,
@@ -16,6 +16,14 @@ async function up(queryInterface, config, appLog) {
     },
     status: {
       type: DataTypes.INTEGER,
+    },
+    created_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updated_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
     },
   });
 
@@ -34,5 +42,4 @@ async function up(queryInterface, config, appLog) {
 
 module.exports = {
   up,
-}
-
+};

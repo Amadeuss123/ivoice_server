@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
-const migrationUtils = require('../lib/migrator/migration-utils');
 
-async function up(queryInterface, config, appLog) {
+async function up(queryInterface) {
   await queryInterface.createTable('audio', {
     id: {
       type: DataTypes.STRING,
@@ -23,6 +22,14 @@ async function up(queryInterface, config, appLog) {
     audio_time: {
       type: DataTypes.FLOAT,
     },
+    created_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updated_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
   });
 
   await queryInterface.addConstraint('audio', {
@@ -40,5 +47,4 @@ async function up(queryInterface, config, appLog) {
 
 module.exports = {
   up,
-}
-
+};

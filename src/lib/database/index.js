@@ -1,13 +1,13 @@
-const SequelizeDb = require("../../sequelize");
-const Models = require("../../models");
+const SequelizeDb = require('../../sequelize');
+const Models = require('../../models');
 
-function initDatabase(config) {
+function initDatabase(config, appLog) {
   const sequelizeDb = new SequelizeDb(config);
-  const models = new Models(sequelizeDb, config);
+  const models = new Models(sequelizeDb, config, appLog);
   return {
     sequelizeDb,
-    models
-  }
+    models,
+  };
 }
 
 module.exports = initDatabase;

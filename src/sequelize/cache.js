@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = function (sequelize) {
-  const Audio = sequelize.define(
-    'Audio',
+  const Cache = sequelize.define(
+    'Cache',
     {
       id: {
         type: DataTypes.STRING,
@@ -13,27 +13,20 @@ module.exports = function (sequelize) {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      path: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      data: {
+        type: DataTypes.JSON,
       },
-      userId: {
-        type: DataTypes.STRING,
+      expireDate: {
+        type: DataTypes.DATE,
         allowNull: false,
-      },
-      audioTime: {
-        type: DataTypes.FLOAT,
       },
     },
     {
-      tableName: 'audio',
+      tableName: 'cache',
       underscored: true,
+      updatedAt: false,
     }
   );
-  Audio.belongsTo(sequelize.models.Users, {
-    foreignKey: 'userId',
-    targetKey: 'id',
-  });
 
-  return Audio;
+  return Cache;
 };

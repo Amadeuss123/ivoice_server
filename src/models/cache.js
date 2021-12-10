@@ -1,4 +1,4 @@
-class Results {
+class Cache {
   constructor(sequelizeDb, config, appLog) {
     this.sequelizeDb = sequelizeDb;
     this.config = config;
@@ -6,4 +6,4 @@ class Results {
   }
 }
 
-module.exports = Results;
+module.exports = Cache;

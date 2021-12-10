@@ -10,15 +10,10 @@ function initMigrator(config, appLog, sequelize) {
     },
     logging: (message) => appLog.info(message),
     migrations: {
-      params: [
-        sequelize.queryInterface,
-        config,
-        appLog,
-        sequelize,
-      ],
+      params: [sequelize.queryInterface, config, appLog, sequelize],
       path: path.join(__dirname, '../../migrations'),
       pattern: /^\d+[\w-]+\.js$/,
-    }
+    },
   });
 
   return {
@@ -28,8 +23,8 @@ function initMigrator(config, appLog, sequelize) {
     async isSchemaUpToDate() {
       const pending = await umzug.pending();
       return pending.length === 0;
-    }
-  }
+    },
+  };
 }
 
 module.exports = initMigrator;

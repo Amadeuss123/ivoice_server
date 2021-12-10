@@ -9,7 +9,7 @@
  * @param {Array<String>} fields - array of field names
  * @param {object} [options] - additional options to apply to addIndex
  */
- async function addOrReplaceIndex(
+async function addOrReplaceIndex(
   queryInterface,
   tableName,
   indexName,

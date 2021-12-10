@@ -44,7 +44,7 @@ const certPassphrase = config.get('certPassphrase');
 const keyPath = config.get('keyPath');
 const certPath = config.get('certPath');
 
-const { sequelizeDb, models } = initDatabase(config);
+const { sequelizeDb, models } = initDatabase(config, appLog);
 
 let server;
 
