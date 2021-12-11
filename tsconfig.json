@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2019",
+    "lib": ["ES2020"],
+    "strict": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "./dist/",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "@lib/*": ["src/lib/*"],
+      "@manager/*": ["src/manager/*"],
+      "@manager": ["src/manager"],
+      "@middlewares/*": ["src/middlewares/*"],
+      "@routers/*": ["src/routers/*"],
+      "@routers": ["src/routers"],
+      "@sequelize/*": ["src/sequelize/*"],
+      "@sequelize": ["src/sequelize"],
+      "@utils/*": ["src/utils/*"]
+    }
+  },
+  "include": ["src", "src/server.ts"],
+  "exclude": ["node_modules"],
+}
