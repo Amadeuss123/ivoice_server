@@ -7,7 +7,7 @@ const handleHandleSignUp = async (req: CustomRequest, res: CustomResponse) => {
   const { models, body } = req;
   const { username, hashPassword, phone, code } = body;
 
-  const messageCode = await models!.usersManager.getMessageCodeByPhone(phone);
+  const messageCode = await models!.cacheManager.getMessageCodeByPhone(phone);
   if (!messageCode) {
     return res.utils!.forbidden('验证码已过期， 请重新发送');
   }
@@ -24,7 +24,6 @@ const handleHandleSignUp = async (req: CustomRequest, res: CustomResponse) => {
     username,
     hashPassword,
     phone,
-    signinAt: new Date(),
   });
 
   return res.utils!.data({ message: 'success signup' });
@@ -38,7 +37,7 @@ const handleSendMessageCode = (req: CustomRequest, res: CustomResponse) => {
     res.utils!.error('手机号有错');
     return;
   }
-  const code = models!.usersManager.generateMessageCode(params.phone);
+  const code = models!.cacheManager.generateMessageCode(params.phone);
 
   // TODO 由第三方发送验证码
 

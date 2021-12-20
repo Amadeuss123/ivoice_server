@@ -6,15 +6,27 @@ import initCacheModel from './cache';
 import initResultsModel from './results';
 import initTasksModel from './tasks';
 import initUsersModel from './users';
+import {
+  AudioAttributes,
+  AudioCreateAttributes,
+  CacheAttributes,
+  CacheCreateAttributes,
+  ResultsAttributes,
+  ResultsCreateAttributes,
+  TasksAttributes,
+  TasksCreateAttributes,
+  UsersAttributes,
+  UsersCreateAttributes
+} from './interface';
 
 class SequelizeDb {
   public config: Config;
   public sequelize: Sequelize;
-  public Users: ModelCtor<Model<any, any>>;
-  public Cache: ModelCtor<Model<any, any>>;
-  public Results: ModelCtor<Model<any, any>>;
-  public Audio: ModelCtor<Model<any, any>>;
-  public Tasks: ModelCtor<Model<any, any>>;
+  public Users: ModelCtor<Model<UsersAttributes, UsersCreateAttributes>>;
+  public Cache: ModelCtor<Model<CacheAttributes, CacheCreateAttributes>>;
+  public Results: ModelCtor<Model<ResultsAttributes, ResultsCreateAttributes>>;
+  public Audio: ModelCtor<Model<AudioAttributes, AudioCreateAttributes>>;
+  public Tasks: ModelCtor<Model<TasksAttributes, TasksCreateAttributes>>;
   
   public constructor(config: Config) {
     this.config = config;

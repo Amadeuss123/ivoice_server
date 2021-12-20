@@ -78,3 +78,6 @@ typings/
 package-lock.json
 
 .VSCodeCounter/
+
+temp
+upload

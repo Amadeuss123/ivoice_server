@@ -128,7 +128,7 @@ const configItems = [
   {
     key: 'audioFilesDirName',
     envVar: 'AUDIO_FILES_DIR_NAME',
-    defaultValue: 'audioFiles',
+    defaultValue: 'upload',
   },
   // 识别结果文件位置
   {

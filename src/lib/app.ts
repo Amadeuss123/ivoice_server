@@ -26,6 +26,7 @@ import signinRouter from '@routers/signin';
 import signupRouter from '@routers/signup';
 import tasksRouter from '@routers/tasks';
 import usersRouter from '@routers/users';
+import contextRouter from '@routers/context';
 
 
 
@@ -168,6 +169,7 @@ async function makeApp(config: Config, models: ModelsManager) {
     signupRouter,
     tasksRouter,
     usersRouter,
+    contextRouter,
   ];
 
   routers.forEach((router) => app.use(baseUrl, router));

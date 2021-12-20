@@ -4,7 +4,7 @@ import ModelsManager from '@manager';
 import passport from 'passport';
 import Config from '../config';
 // const basic = require('./basic');
-// const local = require('./local');
+import { enableLocalStrategy } from './local';
 // const phoneLocal = require('./phone-local');
 
 // The serializeUser/deserializeUser functions apply regardless of the strategy used.
@@ -36,6 +36,7 @@ passport.deserializeUser(async function(req: CustomRequest, id: string, done: Fu
  */
 // eslint-disable-next-line no-unused-vars
 async function authStrategies(config: Config, models: ModelsManager) {
+  enableLocalStrategy();
   // basic();
   // local();
   // phoneLocal();
