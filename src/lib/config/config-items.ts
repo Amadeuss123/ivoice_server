@@ -160,6 +160,34 @@ const configItems = [
     envVar: 'MESSAGE_CODE_AVAILABLE',
     defaultValue: true,
   },
+  // ftp服务器地址
+  {
+    key: 'ftpServerHost',
+    envVar: 'FTP_SERVER_HOST',
+    default: 'localhost',
+  },
+  // ftp服务器端口号
+  {
+    key: 'ftpServerPort',
+    envVar: 'FTP_SERVER_PORT',
+    default: 21,
+  },
+  // 上传到ftp服务器目标位置
+  {
+    key: 'ftpUploadDest',
+    envVar: 'FTP_UPLOAD_DEST',
+    default: 'ivoice',
+  },
+  {
+    key: 'ftpUser',
+    envVar: 'FTP_USER',
+    default: 'root',
+  },
+  {
+    key: 'ftpPassword',
+    envVar: 'FTP_PASSWORD',
+    default: '123',
+  }
 ];
 
 export default configItems;

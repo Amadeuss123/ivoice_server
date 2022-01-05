@@ -29,9 +29,9 @@ class ResponseUtils {
 
     // Populate error object from data passed in
     if (typeof data === 'string') {
-      error.title = data;
+      error.detail = data;
     } else if (data instanceof Error) {
-      error.title = data.message || data.toString();
+      error.detail = data.message || data.toString();
     } else if (typeof data === 'object') {
       Object.assign(error, data);
     } else {

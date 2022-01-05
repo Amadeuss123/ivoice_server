@@ -1,64 +1,66 @@
 import mustBeAuthenticated from '../middlewares/authenticated';
 import multer from 'multer';
-import fs, { rename } from 'fs';
+import fs from 'fs';
 import path from 'path';
 import ffmpeg from 'fluent-ffmpeg';
 import { CustomRequest, CustomResponse } from '@lib/interface';
 import express from 'express';
-import { nanoid } from 'nanoid';
-
-type AudioAnalyseInfo = {
-  sampleRate: number,
-  channels: number,
-  bitRate: number,
-  duration: number,
-  size: number,
-  format: string,
-}
-
-type AudioInfo = AudioAnalyseInfo & {
-  name: string,
-}
+import { promisify } from 'es6-promisify';
+import FTPClient from '@lib/ftp/client';
+import { AudioAnalyseInfo, AudioInfo } from './interface';
 
 const router = express.Router();
 const uploader = multer({ dest: 'upload' }).array('files');
-const audioInfoMap = new Map<string, any>();
 
 
 const uploadAudio = async(req: CustomRequest, res: CustomResponse) => {
-  const { files } = req;
+  const { files, appLog, config, models, user } = req;
   if (!files) {
     res.utils!.error('文件上传失败');
   }
-  const audioInfoList: Array<AudioInfo> = [];
+  let audioInfoList: Array<AudioInfo> = [];
+  const destDir = config?.get('ftpUploadDest') ?? 'ivoice';
+  
   try {
-    Promise.all((files as Express.Multer.File[])!.map(async (file) => {
+    audioInfoList = await Promise.all((files as Express.Multer.File[])!.map(async (file) => {
       const newFilePath = renameFile(file);
+      const { originalname } = file;
       const audioAnalyseInfo = await analyseAudio(newFilePath);
-      audioInfoList.push({
+      return {
         ...audioAnalyseInfo,
-        name: file.originalname,
-      });
-    })).then(() => res.utils?.data(audioInfoList)).catch((e) => res.utils?.data(e));
+        name: originalname,
+        localStorePath: newFilePath,
+        ftpStorePath: path.join(destDir, originalname),
+      }
+    }));
   }catch (e) {
-    res.utils!.data(e);
+    res.utils!.error(e);
   }
 
+  res.utils!.data(audioInfoList);
 
-  // TODO 
-  // await req.models.audio.saveAudioInfo();
-  // const audioId = nanoid();
-  // const newFilePath = renameFile(file!, 'temp', audioId);
-  // try {
-  //   const audioData = await analyseAudio(newFilePath);
-  //   audioInfoMap.set(audioId, audioData);
-  //   res.utils!.data({
-  //     id: audioId,
-  //     ...audioData
-  //   });
-  // }catch(e) {
-  //   res.utils!.data(e);
-  // }
+  const ftpClient = new FTPClient(config!);
+  const unlink = promisify(fs.unlink);
+
+  const onFTPClientReady = () => {
+    audioInfoList.map(async (file) => {
+      const { localStorePath, name } = file;
+      try {
+        await ftpClient.put(localStorePath, name);
+        await unlink(localStorePath);
+        appLog?.info(`File ${name} was deleted successfully`);
+      }catch(e) {
+        appLog?.error(e);
+      }
+    })
+    ftpClient.end();
+  }
+
+  ftpClient.onClientConnectReady(onFTPClientReady);
+  ftpClient.connect();
+
+  // models update
+  models?.audioManager.createAudio((user as any).id, audioInfoList);
 
 };
 
