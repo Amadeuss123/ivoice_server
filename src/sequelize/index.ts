@@ -1,33 +1,37 @@
 import { Model, ModelCtor, Sequelize } from 'sequelize';
-import Config from '../lib/config';
-import appLog from '../lib/log/app-log';
-import initAudioModel from './audio';
-import initCacheModel from './cache';
-import initResultsModel from './results';
-import initTasksModel from './tasks';
-import initUsersModel from './users';
+import Config from '@lib/config';
+import appLog from '@lib/log/app-log';
+import initAudioModel from '@sequelize/audio';
+import initCacheModel from '@sequelize/cache';
+import initResultModel from '@sequelize/result';
+import initTaskModel from '@sequelize/task';
+import initUserModel from '@sequelize/user';
+// import initUserTaskModel from '@sequelize/usertask';
 import {
   AudioAttributes,
   AudioCreateAttributes,
   CacheAttributes,
   CacheCreateAttributes,
-  ResultsAttributes,
-  ResultsCreateAttributes,
-  TasksAttributes,
-  TasksCreateAttributes,
-  UsersAttributes,
-  UsersCreateAttributes
-} from './interface';
+  ResultAttributes,
+  ResultCreateAttributes,
+  TaskAttributes,
+  TaskCreateAttributes,
+  UserAttributes,
+  UserCreateAttributes,
+  // UserTaskAttributes,
+  // UserTaskCreateAttributes
+} from '@sequelize/interface';
 
 class SequelizeDb {
   public config: Config;
   public sequelize: Sequelize;
-  public Users: ModelCtor<Model<UsersAttributes, UsersCreateAttributes>>;
+  public User: ModelCtor<Model<UserAttributes, UserCreateAttributes>>;
   public Cache: ModelCtor<Model<CacheAttributes, CacheCreateAttributes>>;
-  public Results: ModelCtor<Model<ResultsAttributes, ResultsCreateAttributes>>;
+  public Result: ModelCtor<Model<ResultAttributes, ResultCreateAttributes>>;
   public Audio: ModelCtor<Model<AudioAttributes, AudioCreateAttributes>>;
-  public Tasks: ModelCtor<Model<TasksAttributes, TasksCreateAttributes>>;
-  
+  public Task: ModelCtor<Model<TaskAttributes, TaskCreateAttributes>>;
+  // public UserTask: ModelCtor<Model<UserTaskAttributes, UserTaskCreateAttributes>>;
+
   public constructor(config: Config) {
     this.config = config;
     const backendDBURI = config.get('backendDBURI');
@@ -39,11 +43,12 @@ class SequelizeDb {
     });
 
     this.sequelize = sequelize;
-    this.Users = initUsersModel(sequelize);
+    this.User = initUserModel(sequelize);
     this.Audio = initAudioModel(sequelize);
-    this.Tasks = initTasksModel(sequelize);
-    this.Results = initResultsModel(sequelize);
+    this.Task = initTaskModel(sequelize);
+    this.Result = initResultModel(sequelize);
     this.Cache = initCacheModel(sequelize);
+    // this.UserTask = initUserTaskModel(sequelize);
   }
 }
 

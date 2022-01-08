@@ -1,12 +1,10 @@
 import Config from "@lib/config";
 import AppLogger from "@lib/log/logger";
-import { QueryInterface } from "sequelize";
-
-const { DataTypes } = require('sequelize');
+import { QueryInterface, DataTypes } from "sequelize";
 
 async function up(queryInterface: QueryInterface, config: Config, appLog: AppLogger) {
   await queryInterface.createTable(
-    'users',
+    'user',
     {
       id: {
         type: DataTypes.STRING,
@@ -23,6 +21,9 @@ async function up(queryInterface: QueryInterface, config: Config, appLog: AppLog
       hash_password: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      signin_at: {
+        type: DataTypes.DATE,
       },
       created_at: {
         type: DataTypes.DATE,

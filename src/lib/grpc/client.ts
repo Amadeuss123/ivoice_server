@@ -1,13 +1,13 @@
-import fs from 'fs';
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
-import P from 'pino';
+import path from 'path';
 
-class GRPCClient {
+export default class GRPCClient {
   private clientStub: any;
 
   public constructor(endPoint: string = 'localhost:9000') {
-    const packageDefinition = protoLoader.loadSync('proto/ivoice.proto', {
+    console.log('dirname ', __dirname);
+    const packageDefinition = protoLoader.loadSync(path.join(__dirname, 'proto/ivoice.proto'), {
       keepCase: true,
       longs: String,
       enums: String,
@@ -23,9 +23,22 @@ class GRPCClient {
   }
 
   public transcribeAudioFile(filePath: string) {
-    return this.clientStub.transcribeAudioFile({
-      remoteFilePath: filePath
+    return new Promise<string>((resolve, reject) => {
+      const result: any[] = [];
+      const serviceCall = this.clientStub.transcribeAudioFile({
+        remoteFilePath: filePath
+      });
+      serviceCall.on('data', (segmentResult: any) => {
+        result.push(segmentResult);
+      });
+      serviceCall.on('end', () => {
+        resolve(JSON.stringify(result));
+      });
+      serviceCall.on('error', (error: Error) => {
+        reject(error);
+      })
     })
+
   }
 }
 

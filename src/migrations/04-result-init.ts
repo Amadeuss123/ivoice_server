@@ -1,19 +1,17 @@
 import { DataTypes, QueryInterface } from 'sequelize';
 
 async function up(queryInterface: QueryInterface) {
-  await queryInterface.createTable('results', {
+  await queryInterface.createTable('result', {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    content: {
+      type: DataTypes.TEXT,
     },
     path: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     task_id: {
       type: DataTypes.STRING,
@@ -29,12 +27,12 @@ async function up(queryInterface: QueryInterface) {
     },
   });
 
-  await queryInterface.addConstraint('results', {
+  await queryInterface.addConstraint('result', {
     fields: ['task_id'],
     type: 'foreign key',
     name: 'results_task_id_key',
     references: {
-      table: 'tasks',
+      table: 'task',
       field: 'id',
     },
     onDelete: 'cascade',

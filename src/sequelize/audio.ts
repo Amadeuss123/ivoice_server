@@ -30,7 +30,7 @@ export default function initAudioModel(sequelize: Sequelize) {
       underscored: true,
     }
   );
-  Audio.belongsTo(sequelize.models.Users, {
+  Audio.belongsTo(sequelize.models.User, {
     foreignKey: 'userId',
     targetKey: 'id',
   });

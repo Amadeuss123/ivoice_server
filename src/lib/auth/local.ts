@@ -15,7 +15,7 @@ function enableLocalStrategy() {
       },
       async function passportLocalStrategyHandler(req: CustomRequest, username: string, hashPassword, done) {
         const { models } = req;
-        const user = await models!.usersManager.findUserByUsername(username);
+        const user = await models!.userManager.findUserByUsername(username);
         const verifiedNum = await models!.cacheManager.getSignInVerifiedNum(username);
         if (!user) {
           return done(null, false, {message: 'wrong username or password'});

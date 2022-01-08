@@ -21,12 +21,13 @@ import ModelsManager from '@manager';
 import Config from '@lib/config';
 import { CustomRequest, CustomResponse } from '@lib/interface';
 import audioRouter from '@routers/audio';
-import resultsRouter from '@routers/results';
+import resultsRouter from '@routers/result';
 import signinRouter from '@routers/signin';
 import signupRouter from '@routers/signup';
-import tasksRouter from '@routers/tasks';
-import usersRouter from '@routers/users';
+import tasksRouter from '@routers/task';
+import usersRouter from '@routers/user';
 import contextRouter from '@routers/context';
+import { addTranscribeAudioFileListener } from 'src/mq-listeners/transcribe-file-listener';
 
 
 
@@ -210,6 +211,9 @@ async function makeApp(config: Config, models: ModelsManager) {
       res.status(404).send(msg);
     });
   }
+
+  // 注册消息队列监听函数
+  addTranscribeAudioFileListener(config, models, appLog);
 
   return app;
 }

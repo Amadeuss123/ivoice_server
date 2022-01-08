@@ -15,12 +15,12 @@ const handleHandleSignUp = async (req: CustomRequest, res: CustomResponse) => {
     return res.utils!.forbidden('验证码错误');
   }
 
-  const currentUser = await models!.usersManager.findUserByPhone(phone);
+  const currentUser = await models!.userManager.findUserByPhone(phone);
   if (currentUser) {
     return res.utils!.forbidden('该手机号已存在');
   }
 
-  const user = await models!.usersManager.createUser({
+  const user = await models!.userManager.createUser({
     username,
     hashPassword,
     phone,

@@ -164,29 +164,34 @@ const configItems = [
   {
     key: 'ftpServerHost',
     envVar: 'FTP_SERVER_HOST',
-    default: 'localhost',
+    defaultValue: 'localhost',
   },
   // ftp服务器端口号
   {
     key: 'ftpServerPort',
     envVar: 'FTP_SERVER_PORT',
-    default: 21,
+    defaultValue: 21,
   },
   // 上传到ftp服务器目标位置
   {
     key: 'ftpUploadDest',
     envVar: 'FTP_UPLOAD_DEST',
-    default: 'ivoice',
+    defaultValue: 'ivoice',
   },
   {
     key: 'ftpUser',
     envVar: 'FTP_USER',
-    default: 'root',
+    defaultValue: 'root',
   },
   {
     key: 'ftpPassword',
     envVar: 'FTP_PASSWORD',
-    default: '123',
+    defaultValue: '123',
+  },
+  {
+    key: 'rabbitMQUri',
+    envVar: 'RABBIT_MQ_URI',
+    defaultValue: 'amqp:localhost',
   }
 ];
 

@@ -1,4 +1,5 @@
 export interface AudioCreateAttributes {
+  id: string;
   name: string;
   path: string;
   userId: string;
@@ -6,7 +7,6 @@ export interface AudioCreateAttributes {
 }
 
 export interface AudioAttributes extends AudioCreateAttributes {
-  id: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,39 +22,45 @@ export interface CacheAttributes extends CacheCreateAttributes {
   createdAt: Date;
 }
 
-export interface ResultsCreateAttributes {
-  name: string;
+export interface ResultCreateAttributes {
+  content: string;
   taskId: string;
   path: string;
 }
 
-export interface ResultsAttributes extends ResultsCreateAttributes {
+export interface ResultAttributes extends ResultCreateAttributes {
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface TasksCreateAttributes {
+export interface TaskCreateAttributes {
   audioId: string;
+  userId: string;
   taskType: number;
-  status: number;
+  taskStatus: number;
 }
 
-export interface TasksAttributes extends TasksCreateAttributes {
+export interface TaskAttributes extends TaskCreateAttributes {
   id: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface UsersCreateAttributes {
+export interface UserCreateAttributes {
   username: string;
   phone: string;
   hashPassword: string;
 }
 
-export interface UsersAttributes extends UsersCreateAttributes {
+export interface UserAttributes extends UserCreateAttributes {
   id: string;
   signinAt: Date;
 }
 
+export interface UserTaskCreateAttributes {
+  userId: string;
+  taskId: string;
+  taskStatus: number;
+}
 
-
+export interface UserTaskAttributes extends UserTaskCreateAttributes {}

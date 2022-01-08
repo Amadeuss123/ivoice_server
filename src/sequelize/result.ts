@@ -1,18 +1,16 @@
 import { DataTypes, Sequelize } from 'sequelize';
 
-export default function initResultsModel(sequelize: Sequelize) {
-  const Results = sequelize.define(
-    'Results',
+export default function initResultModel(sequelize: Sequelize) {
+  const Result = sequelize.define(
+    'Result',
     {
       id: {
         type: DataTypes.STRING,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
-    
       },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      content: {
+        type: DataTypes.TEXT,
       },
       taskId: {
         type: DataTypes.STRING,
@@ -20,19 +18,18 @@ export default function initResultsModel(sequelize: Sequelize) {
       },
       path: {
         type: DataTypes.STRING,
-        allowNull: false,
       }
     },
     {
-      tableName: 'results',
+      tableName: 'result',
       underscored: true,
     }
   );
 
-  Results.belongsTo(sequelize.models.Tasks, {
+  Result.belongsTo(sequelize.models.Task, {
     foreignKey: 'taskId',
     targetKey: 'id',
   });
 
-  return Results;
+  return Result;
 }

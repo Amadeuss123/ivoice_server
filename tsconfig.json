@@ -19,7 +19,8 @@
       "@routers": ["src/routers"],
       "@sequelize/*": ["src/sequelize/*"],
       "@sequelize": ["src/sequelize"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@const/*": ["src/const/*"]
     }
   },
   "include": ["src", "src/server.ts"],

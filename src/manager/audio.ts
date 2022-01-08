@@ -1,4 +1,5 @@
 import { AudioInfo } from "@routers/interface";
+import { Op } from "sequelize";
 import Config from "../lib/config";
 import AppLogger from "../lib/log/logger";
 import SequelizeDb from "../sequelize";
@@ -16,8 +17,9 @@ class AudioManager {
   public async createAudio(userId: string, audioInfoList: Array<AudioInfo>) {
     try {
       await Promise.all(audioInfoList.map(async (audioInfo) => {
-        const { name, duration, ftpStorePath } = audioInfo;
+        const { id, name, duration, ftpStorePath } = audioInfo;
         const result = await this.sequelizeDb.Audio.create({
+          id,
           name,
           path: ftpStorePath,
           userId,
@@ -30,6 +32,14 @@ class AudioManager {
     }
   }
 
+  public async findAudiosByIds(fileIds: string[]) {
+    const audioList = await this.sequelizeDb.Audio.findAll({
+      where: {
+        id: fileIds,
+      }
+    });
+    return audioList.map((audioInstance) => audioInstance.toJSON());
+  }
 
 }
 

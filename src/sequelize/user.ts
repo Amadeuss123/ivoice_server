@@ -1,8 +1,8 @@
 import { DataTypes, Sequelize } from 'sequelize';
 
-export default function initUsersModel(sequelize: Sequelize) {
-  const Users = sequelize.define(
-    'Users',
+export default function initUserModel(sequelize: Sequelize) {
+  const User = sequelize.define(
+    'User',
     {
       id: {
         type: DataTypes.STRING,
@@ -25,9 +25,9 @@ export default function initUsersModel(sequelize: Sequelize) {
       },
     },
     {
-      tableName: 'users',
+      tableName: 'user',
       underscored: true,
     }
   );
-  return Users;
+  return User;
 };

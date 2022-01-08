@@ -15,6 +15,7 @@ export type AudioAnalyseInfo = {
 }
 
 export type AudioInfo = AudioAnalyseInfo & {
+  id: string,
   name: string,
   localStorePath: string,
   ftpStorePath: string,
@@ -23,4 +24,10 @@ export type AudioInfo = AudioAnalyseInfo & {
 export type AudioPath = {
   audioPath: string,
   name: string,
+}
+
+export enum TaskStatus {
+  doing = 0,
+  success = 1,
+  fail = 2,
 }

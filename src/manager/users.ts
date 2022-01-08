@@ -7,7 +7,7 @@ import AppLogger from '../lib/log/logger';
 import { CreatedUserInfo } from './interface';
 
 const FiveMinutes = 1000 * 60 * 5;
-export default class UsersManager {
+export default class UserManager {
   private sequelizeDb: SequelizeDb;
   private config: Config;
   private appLog: AppLogger;
@@ -19,7 +19,7 @@ export default class UsersManager {
   }
 
   async findUserByPhone(phone: string) {
-    const user = await this.sequelizeDb.Users.findOne({
+    const user = await this.sequelizeDb.User.findOne({
       where: {
         phone,
       },
@@ -33,7 +33,7 @@ export default class UsersManager {
   }
 
   async findUserByUsername(username: string) {
-    const user = await this.sequelizeDb.Users.findOne({
+    const user = await this.sequelizeDb.User.findOne({
       where: {
         username,
       },
@@ -50,7 +50,7 @@ export default class UsersManager {
     const { hashPassword } = userInfo;
     const newHashPassword = sha1(hashPassword).toString();
 
-    const newUser = await this.sequelizeDb.Users.create({
+    const newUser = await this.sequelizeDb.User.create({
       ...userInfo,
       hashPassword: newHashPassword,
     });

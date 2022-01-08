@@ -1,7 +1,8 @@
 import { DataTypes, QueryInterface } from 'sequelize';
+import { TaskStatus, TaskType } from '@const/task';
 
 async function up(queryInterface: QueryInterface) {
-  await queryInterface.createTable('tasks', {
+  await queryInterface.createTable('task', {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
@@ -11,11 +12,17 @@ async function up(queryInterface: QueryInterface) {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    task_type: {
-      type: DataTypes.INTEGER,
+    user_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    status: {
-      type: DataTypes.INTEGER,
+    task_type: {
+      type: DataTypes.TINYINT,
+      defaultValue: TaskType.Recognize,
+    },
+    task_status: {
+      type: DataTypes.TINYINT,
+      defaultValue: TaskStatus.Waiting,
     },
     created_at: {
       type: DataTypes.DATE,
@@ -27,12 +34,23 @@ async function up(queryInterface: QueryInterface) {
     },
   });
 
-  await queryInterface.addConstraint('tasks', {
+  await queryInterface.addConstraint('task', {
     fields: ['audio_id'],
     type: 'foreign key',
     name: 'task_audio_id_key',
     references: {
       table: 'audio',
+      field: 'id',
+    },
+    onDelete: 'cascade',
+    onUpdate: 'cascade',
+  });
+  await queryInterface.addConstraint('task', {
+    fields: ['user_id'],
+    type: 'foreign key',
+    name: 'task_user_id_key',
+    references: {
+      table: 'user',
       field: 'id',
     },
     onDelete: 'cascade',

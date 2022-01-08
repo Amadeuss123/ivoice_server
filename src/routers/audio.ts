@@ -8,6 +8,7 @@ import express from 'express';
 import { promisify } from 'es6-promisify';
 import FTPClient from '@lib/ftp/client';
 import { AudioAnalyseInfo, AudioInfo } from './interface';
+import { nanoid } from 'nanoid';
 
 const router = express.Router();
 const uploader = multer({ dest: 'upload' }).array('files');
@@ -28,6 +29,7 @@ const uploadAudio = async(req: CustomRequest, res: CustomResponse) => {
       const audioAnalyseInfo = await analyseAudio(newFilePath);
       return {
         ...audioAnalyseInfo,
+        id: nanoid(),
         name: originalname,
         localStorePath: newFilePath,
         ftpStorePath: path.join(destDir, originalname),

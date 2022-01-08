@@ -37,7 +37,7 @@ async function up(queryInterface: QueryInterface) {
     type: 'foreign key',
     name: 'audio_user_id_key',
     references: {
-      table: 'users',
+      table: 'user',
       field: 'id',
     },
     onDelete: 'cascade',
