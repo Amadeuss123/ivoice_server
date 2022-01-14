@@ -17,11 +17,11 @@ class AudioManager {
   public async createAudio(userId: string, audioInfoList: Array<AudioInfo>) {
     try {
       await Promise.all(audioInfoList.map(async (audioInfo) => {
-        const { id, name, duration, ftpStorePath } = audioInfo;
+        const { id, name, duration, storePath } = audioInfo;
         const result = await this.sequelizeDb.Audio.create({
           id,
           name,
-          path: ftpStorePath,
+          path: storePath,
           userId,
           audioTime: Number(duration.toFixed(2)),
         })
@@ -32,10 +32,22 @@ class AudioManager {
     }
   }
 
-  public async findAudiosByIds(fileIds: string[]) {
+  public async findAudioById(audioId: string) {
+    const audioInfo = await this.sequelizeDb.Audio.findOne({
+      where: {
+        id: audioId,
+      }
+    });
+    if (!audioInfo) {
+      return null;
+    }
+    return audioInfo.toJSON();
+  }
+
+  public async findAudiosByIds(audioIds: string[]) {
     const audioList = await this.sequelizeDb.Audio.findAll({
       where: {
-        id: fileIds,
+        id: audioIds,
       }
     });
     return audioList.map((audioInstance) => audioInstance.toJSON());

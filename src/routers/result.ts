@@ -12,7 +12,11 @@ const getTaskResult = async (req: CustomRequest, res: CustomResponse) => {
     res.utils?.error('找不到对应的文件');
     return;
   }
-  res.utils?.data(result);
+  const audioInfo = await models?.taskManager.findTaskByTaskId(taskId);
+  res.utils?.data({
+    ...result,
+    audioId: audioInfo?.audioId
+  });
 }
 
 router.get('/api/result/:taskId', mustBeAuthenticated, getTaskResult)

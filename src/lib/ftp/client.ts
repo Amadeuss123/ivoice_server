@@ -2,6 +2,7 @@ import Config from '@lib/config';
 import appLog from '@lib/log/app-log';
 import AppLogger from '@lib/log/logger';
 import Client from 'ftp';
+import { promisify } from 'util';
 
 export default class FTPClient {
   private host: string;
@@ -16,7 +17,7 @@ export default class FTPClient {
     this.port = config.get('ftpServerPort') ?? 21;
     this.user = config.get('ftpUser') ?? 'root';
     this.password = config.get('ftpPassword') ?? '123';
-    this.destDir = config.get('ftpUploadDest') ?? 'ivoice';
+    this.destDir = config.get('storeDirPath') ?? 'upload';
     this.client = new Client();
   }
 

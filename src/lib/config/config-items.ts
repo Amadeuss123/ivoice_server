@@ -174,9 +174,9 @@ const configItems = [
   },
   // 上传到ftp服务器目标位置
   {
-    key: 'ftpUploadDest',
-    envVar: 'FTP_UPLOAD_DEST',
-    defaultValue: 'ivoice',
+    key: 'storeDirPath',
+    envVar: 'STORE_DIR_PATH',
+    defaultValue: 'upload',
   },
   {
     key: 'ftpUser',

@@ -1,4 +1,5 @@
 import { TaskStatus, TaskType } from "@const/task";
+import P from "pino";
 import Config from "../lib/config";
 import AppLogger from "../lib/log/logger";
 import SequelizeDb from "../sequelize";
@@ -71,6 +72,18 @@ class TaskManager {
         }
       }
     }));
+  }
+
+  public async findTaskByTaskId(taskId: string) {
+    const task = await this.sequelizeDb.Task.findOne({
+      where: {
+        id: taskId,
+      },
+    });
+    if (!task) {
+      return null;
+    }
+    return task.toJSON();
   }
 
   public async updateTaskStatus(taskId: string, taskStatus: TaskStatus) {

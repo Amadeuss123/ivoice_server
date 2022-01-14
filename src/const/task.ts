@@ -9,3 +9,14 @@ export enum TaskType {
   Recognize = 0,
   Denoise = 1,
 }
+
+export interface TranscribeResultSegment {
+  segment: {
+    start: number,
+    end: number,
+  },
+  label: number,
+  word: string,
+}
+
+export type TranscribeResult = TranscribeResultSegment[];
