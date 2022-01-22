@@ -3,7 +3,9 @@ import appLog from '@lib/log/app-log';
 import AppLogger from '@lib/log/logger';
 import Client from 'ftp';
 import { promisify } from 'util';
+import fs from 'fs';
 
+let ftpClientInstance: FTPClient | null = null;
 export default class FTPClient {
   private host: string;
   private port: number;
@@ -12,13 +14,21 @@ export default class FTPClient {
   private destDir: string;
   private client: Client;
 
-  public constructor(config: Config) {
+  private constructor(config: Config) {
     this.host = config.get('ftpServerHost') ?? 'localhost';
     this.port = config.get('ftpServerPort') ?? 21;
     this.user = config.get('ftpUser') ?? 'root';
     this.password = config.get('ftpPassword') ?? '123';
     this.destDir = config.get('storeDirPath') ?? 'upload';
     this.client = new Client();
+  }
+
+  public static getInstance(config: Config) {
+    if (!ftpClientInstance) {
+      ftpClientInstance = new FTPClient(config);
+      return ftpClientInstance;
+    }
+    return ftpClientInstance;
   }
 
   public onClientConnectReady(fn: () => void) {
@@ -54,14 +64,18 @@ export default class FTPClient {
     })
   }
 
-  public async get(path: string) {
+  public async get(path: string, localStorePath: string) {
     return new Promise((resolve, reject) => {
-      this.client.get(path, (error) => {
+      this.client.get(path, (error, stream) => {
         if (error) {
           reject(error.message);
         }
-        appLog.info('File was download successfully');
-        resolve('');
+        stream.once('close', () => {
+          this.client.end();
+          appLog.info('File was download successfully');
+          resolve('');
+        });
+        stream.pipe(fs.createWriteStream(localStorePath))
       })
     })
   }

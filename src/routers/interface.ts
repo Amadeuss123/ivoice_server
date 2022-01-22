@@ -12,7 +12,6 @@ export type AudioAnalyseInfo = {
   channels: number,
   bitRate: number,
   duration: number,
-  size: number,
   format: string,
 }
 
@@ -35,8 +34,5 @@ export enum TaskStatus {
 }
 
 export interface UploadParseResult {
-  nameIdMap: {
-    [key: string]: string,
-  },
   files: File[],
 }

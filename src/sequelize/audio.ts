@@ -21,9 +21,26 @@ export default function initAudioModel(sequelize: Sequelize) {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      audioTime: {
+      duration: {
         type: DataTypes.FLOAT,
+        allowNull: false,
       },
+      sampleRate: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      bitRate: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      channels: {
+        type: DataTypes.TINYINT,
+        allowNull: false,
+      },
+      format: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      }
     },
     {
       tableName: 'audio',

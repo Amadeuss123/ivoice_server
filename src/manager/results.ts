@@ -13,16 +13,24 @@ class ResultManager {
     this.appLog = appLog;
   }
 
-  public async createTaskResult(taskId: string, taskResult?: string, resultPath?: string) {
+  public async createTaskResult(
+    taskId: string,
+    taskResult: {
+      transcribeResult?: string,
+      resultPath?: string,
+      abstract?: string,
+    }) {
+    const { transcribeResult, resultPath, abstract } = taskResult;
     const result = await this.sequelizeDb.Result.create({
       taskId,
-      content: taskResult ?? '',
-      path: resultPath ?? ''
+      content: transcribeResult ?? '',
+      path: resultPath ?? '',
+      abstract: abstract ?? '',
     })
     return result.toJSON();
   }
 
-  public async getTaskResult(taskId: string) {
+  public async getTaskResultByTaskId(taskId: string) {
     const result = await this.sequelizeDb.Result.findOne({
       where: {
         taskId,
@@ -32,6 +40,54 @@ class ResultManager {
       return null;
     }
     return result.toJSON();
+  }
+
+  public async getTaskResultByResultId(resultId: string) {
+    const result = await this.sequelizeDb.Result.findOne({
+      where: {
+        id: resultId,
+      }
+    });
+    if (!result) {
+      return null;
+    }
+    return result.toJSON();
+  }
+
+  public async updateTaskResultByTaskId(taskId: string, resultInfo: {
+    content?: string,
+    path?: string,
+    abstract?: string,
+  }) {
+    const [result] = await this.sequelizeDb.Result.update({
+      ...resultInfo,
+    }, {
+      where: {
+        taskId
+      }
+    });
+    if (result <= 0) {
+      return false;
+    }
+    return true;
+  }
+
+  public async updateTaskResultByResultId(resultId: string, resultInfo: {
+    content?: string,
+    path?: string,
+    abstract?: string,
+  }) {
+    const [result] = await this.sequelizeDb.Result.update({
+      ...resultInfo,
+    }, {
+      where: {
+        id: resultId,
+      }
+    });
+    if (result <= 0) {
+      return false;
+    }
+    return true;
   }
 }
 

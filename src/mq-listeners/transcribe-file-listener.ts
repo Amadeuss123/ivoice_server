@@ -13,13 +13,19 @@ export function addTranscribeAudioFileListener(
   const rabbitMQ = RabbitMQ.getInstance(config, appLog);
   rabbitMQ.onReceiveQueueMessage(
     'transcribe',
-    (message: string) => transcribeAudioFile(message, models, appLog),
+    (message: string) => transcribeAudioFile(message, models, appLog, config),
     (e: any) => appLog.error(e), 
   )
 }
 
-async function transcribeAudioFile(data: string, models: ModelsManager, appLog: AppLogger) {
-  const grpcClient = new GRPCClient();
+async function transcribeAudioFile(
+  data: string,
+  models: ModelsManager,
+  appLog: AppLogger,
+  config: Config
+) {
+  const endPoint = config.get('grpcClient');
+  const grpcClient = new GRPCClient(endPoint);
   const obj = JSON.parse(data);
   const { filePath, taskId } = obj;
   try {
@@ -28,7 +34,10 @@ async function transcribeAudioFile(data: string, models: ModelsManager, appLog: 
     const transcribeResult = await grpcClient.transcribeAudioFile(filePath);
     console.log('transcribe Result ', transcribeAudioFile);
     
-    await models.resultManager.createTaskResult(taskId, transcribeResult)
+    const taskResult = {
+      transcribeResult,
+    }
+    await models.resultManager.createTaskResult(taskId, taskResult)
     appLog.info('task executed successfully');
     
     const isSuccess = await models.taskManager.updateTaskStatus(taskId, TaskStatus.Success);

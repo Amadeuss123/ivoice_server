@@ -192,6 +192,11 @@ const configItems = [
     key: 'rabbitMQUri',
     envVar: 'RABBIT_MQ_URI',
     defaultValue: 'amqp:localhost',
+  },
+  {
+    key: 'grpcClient',
+    envVar: 'GRPC_CLIENT',
+    defaultValue: 'localhost:9000',
   }
 ];
 

@@ -4,12 +4,15 @@ package ivoice;
 
 service IVoiceToolkit {
   rpc transcribeAudioFile (TranscribeRequest) returns (stream TranscribeResponse) {}
+  rpc generateResultAbstract (ResultContent) returns (ResultAbstract) {}
 }
 
-message Result {
-  string segment = 1;
-  string label = 2;
-  string word = 3;
+message ResultContent {
+  string content = 1;
+}
+
+message ResultAbstract {
+  string abstract = 1;
 }
 
 message Segment {

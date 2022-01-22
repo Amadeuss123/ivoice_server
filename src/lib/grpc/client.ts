@@ -38,18 +38,18 @@ export default class GRPCClient {
         reject(error);
       })
     })
+  }
 
+  public async generateResultAbstract(content: string) {
+    return new Promise<string>((resolve, reject) => {
+      const serviceCall = this.clientStub.generateResultAbstract({
+        content,
+      }, (err: any, abstract: string) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(abstract);
+      })
+    });
   }
 }
-
-// serviceCall.on('data', (pair: any) => {
-//   console.log(pair);
-// })
-
-// serviceCall.on('error', (error: any) => {
-//   console.log(error);
-// })
-
-// serviceCall.on('end', () => {
-//   console.log('audioTranscribe end');
-// })

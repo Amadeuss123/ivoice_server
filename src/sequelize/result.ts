@@ -18,6 +18,9 @@ export default function initResultModel(sequelize: Sequelize) {
       },
       path: {
         type: DataTypes.STRING,
+      },
+      abstract: {
+        type: DataTypes.STRING,
       }
     },
     {

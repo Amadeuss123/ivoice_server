@@ -14,11 +14,16 @@ class TaskManager {
     this.appLog = appLog;
   }
 
-  public async createTasks(taskType: string, fileIds: string[], userId: string) {
+  public async createTasks(taskType: keyof typeof TaskType, fileIds: string[], userId: string) {
+    if (fileIds.length === 0) {
+      return {
+        success: false,
+      };
+    }
     try {
       const tasks = await this.sequelizeDb.Task.bulkCreate(fileIds.map((fileId) => {
         return {
-          taskType: taskType === 'recognize' ? TaskType.Recognize : TaskType.Denoise,
+          taskType: TaskType[taskType],
           audioId: fileId,
           userId,
           taskStatus: TaskStatus.Waiting,
@@ -68,7 +73,7 @@ class TaskManager {
         ...task.toJSON(),
         audio: {
           name: audioInfo.toJSON().name,
-          duration: audioInfo.toJSON().audioTime
+          duration: audioInfo.toJSON().duration,
         }
       }
     }));
@@ -98,6 +103,19 @@ class TaskManager {
       return true;
     }
     return false;
+  }
+
+  public async deleteTaskByTaskId(taskId: string) {
+    const result = await this.sequelizeDb.Task.destroy({
+      where: {
+        id: taskId
+      }
+    });
+
+    if (result <= 0) {
+      return false;
+    }
+    return true;
   }
 }
 

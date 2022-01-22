@@ -65,8 +65,15 @@ const createTask = async (req: CustomRequest, res: CustomResponse) => {
 };
 
 
-const deleteTask = (req: CustomRequest, res: CustomResponse) => {
-  res.utils!.data({ message: 'success delete task' });
+const deleteTask = async (req: CustomRequest, res: CustomResponse) => {
+  const { params, models } = req;
+  const { taskId } = params;
+  const result = await models?.taskManager.deleteTaskByTaskId(taskId);
+  if (result) {
+    res.utils!.data({ message: '删除成功' });
+    return;
+  }
+  res.utils?.error('删除失败');
 };
 
 router.get('/api/task/list', mustBeAuthenticated, findAllTasksByUserId);
@@ -76,6 +83,6 @@ router.get(
   getTaskDetailByTaskId
 );
 router.post('/api/task/create', mustBeAuthenticated, createTask);
-router.delete('/api/task/:taskId', mustBeAuthenticated, deleteTask);
+router.delete('/api/task/delete/:taskId', mustBeAuthenticated, deleteTask);
 
 export default router;

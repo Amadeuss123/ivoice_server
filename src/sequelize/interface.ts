@@ -3,7 +3,11 @@ export interface AudioCreateAttributes {
   name: string;
   path: string;
   userId: string;
-  audioTime: number;
+  duration: number;
+  sampleRate: number;
+  bitRate: number;
+  channels: number;
+  format: string;
 }
 
 export interface AudioAttributes extends AudioCreateAttributes {
@@ -23,12 +27,14 @@ export interface CacheAttributes extends CacheCreateAttributes {
 }
 
 export interface ResultCreateAttributes {
-  content: string;
   taskId: string;
-  path: string;
+  content?: string;
+  path?: string;
+  abstract?: string;
 }
 
 export interface ResultAttributes extends ResultCreateAttributes {
+  id: string;
   createdAt: Date;
   updatedAt: Date;
 }
